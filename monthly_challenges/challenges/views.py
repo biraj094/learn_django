@@ -30,6 +30,16 @@ def monthly_challenge_by_number(request,month):
 def monthly_challenge(request, month):
     try:
         response = monthly_challenge_dict[month] 
+        response_style = f'<h1>{response}</h1>'
     except:
         return HttpResponseNotFound('Month entered is not available !')
-    return HttpResponse(response)
+    return HttpResponse(response_style)
+
+
+def index(request):
+    list_code = ''
+    months = monthly_challenge_dict.keys()
+    for m in months:
+        month_path = reverse('month-challenge',args = [m])
+        list_code += f'<li><a href = \"{month_path}\">{m.upper()}</li>'
+    return HttpResponse(list_code)
