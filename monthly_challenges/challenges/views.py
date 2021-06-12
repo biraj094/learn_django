@@ -30,10 +30,9 @@ def monthly_challenge_by_number(request,month):
 def monthly_challenge(request, month):
     try:
         response = monthly_challenge_dict[month] 
-        response_style = f'<h1>{response}</h1>'
+        return render(request, 'challenges/challenge.html')
     except:
         return HttpResponseNotFound('Month entered is not available !')
-    return HttpResponse(response_style)
 
 
 def index(request):
