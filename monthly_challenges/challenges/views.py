@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect,Http404
 from django.urls import reverse
+from django.template.loader import render_to_string
 # Create your views here.
 
 monthly_challenge_dict = {
@@ -36,7 +37,9 @@ def monthly_challenge(request, month):
 
         return render(request, 'challenges/challenge.html',content)
     except:
-        return HttpResponseNotFound('Month entered is not available !')
+        raise Http404()
+        # response =  render_to_string("404.html")
+        # return HttpResponseNotFound(response)
 
 
 def index(request):
