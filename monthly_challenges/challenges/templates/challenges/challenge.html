@@ -6,6 +6,7 @@ Monthly Challenge
 {% endblock %}
 
 {% block content %}
-    <h1>So, this months challenge is : </h1>
+{% include "challenges/includes/header.html" %}
+    <h1>So, this month's challenge is : </h1>
     <h2> {{text|title}} </h2>
 {% endblock %}
