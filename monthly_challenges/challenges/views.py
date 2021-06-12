@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect,Http404
 from django.urls import reverse
+from django.template.loader import render_to_string
 # Create your views here.
 
 monthly_challenge_dict = {
@@ -30,16 +31,25 @@ def monthly_challenge_by_number(request,month):
 def monthly_challenge(request, month):
     try:
         response = monthly_challenge_dict[month] 
-        response_style = f'<h1>{response}</h1>'
+        content = {
+            'text' : response
+        }
+
+        return render(request, 'challenges/challenge.html',content)
     except:
-        return HttpResponseNotFound('Month entered is not available !')
-    return HttpResponse(response_style)
+        raise Http404()
+        # response =  render_to_string("404.html")
+        # return HttpResponseNotFound(response)
 
 
 def index(request):
-    list_code = ''
+    # list_code = ''
     months = monthly_challenge_dict.keys()
-    for m in months:
-        month_path = reverse('month-challenge',args = [m])
-        list_code += f'<li><a href = \"{month_path}\">{m.upper()}</li>'
-    return HttpResponse(list_code)
+    # for m in months:
+    #     month_path = reverse('month-challenge',args = [m])
+    #     list_code += f'<li><a href = \"{month_path}\">{m.upper()}</li>'
+    content = {
+            'months':months
+    }
+    
+    return render(request,"challenges/index.html",content)
